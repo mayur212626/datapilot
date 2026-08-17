@@ -1,0 +1,14 @@
+# env
+.env
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# generated charts + uploads
+charts/
+data/uploads/
+
+# os
+.DS_Store
+Thumbs.db
