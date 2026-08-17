@@ -12,3 +12,6 @@ data/uploads/
 # os
 .DS_Store
 Thumbs.db
+
+# editor/tooling
+.claude/

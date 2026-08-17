@@ -14,8 +14,13 @@ from openai import OpenAI
 from .profile import profile_df
 from .sandbox import run_code
 
-_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 _MODEL = os.getenv("LLM_MODEL", "gpt-4o-mini")
+
+
+def _get_client():
+    """Create the client lazily so the app can load and profile data without
+    a key — we only need one once an actual question is asked."""
+    return OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 TOOLS = [
     {
@@ -59,9 +64,10 @@ def analyze(df, question, chart_path, max_steps=5):
     ]
 
     made_chart = False
+    client = _get_client()
 
     for _ in range(max_steps):
-        resp = _client.chat.completions.create(
+        resp = client.chat.completions.create(
             model=_MODEL,
             messages=messages,
             tools=TOOLS,

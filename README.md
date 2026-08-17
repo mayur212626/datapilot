@@ -15,6 +15,17 @@ reads the output, and decides whether it has enough to answer or needs another
 step. Every number in the answer comes from code that actually ran — not from
 the model guessing.
 
+## Demo
+
+Ask *"Which region is losing revenue over the year?"* against the included
+sample data and the agent surfaces the West region's steady decline:
+
+![Revenue by region](docs/demo_chart.png)
+
+> Chart above is real output from the sample dataset. To capture a screenshot
+> of the full app, run it with your API key and save the view to
+> `docs/screenshot.png` — the README will pick it up.
+
 ## Stack
 
 - **Agent loop:** OpenAI tool-calling
@@ -38,6 +49,31 @@ streamlit run app.py
 ```
 
 Upload a CSV, type a question, watch it work.
+
+## Try it with sample data
+
+A sample sales dataset is included at `sample_data/sales.csv` (12 months × 4
+regions). Good starter questions:
+
+- *Which region is losing revenue over the year?*
+- *What was total revenue in Q4?*
+- *Which region has the highest average unit price?*
+
+## Tests
+
+Offline checks (no API key, no network) cover data profiling and the code
+sandbox, including that file access is blocked:
+
+```bash
+PYTHONPATH=. python tests/test_offline.py
+```
+
+The full agent loop, which calls the model, has its own smoke test (needs
+`OPENAI_API_KEY`):
+
+```bash
+PYTHONPATH=. python tests/test_agent_live.py
+```
 
 ## How it works
 
