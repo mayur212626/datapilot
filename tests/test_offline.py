@@ -54,6 +54,22 @@ def test_sandbox_blocks_file_access():
     print("\nsandbox safety OK -> file access blocked")
 
 
+def test_sandbox_blocks_unsafe_import():
+    df = _load()
+    out, made_chart = run_code("import os\nprint(os.listdir('.'))", df)
+    assert "not allowed" in out.lower()
+    print("sandbox safety OK -> 'import os' blocked")
+
+
+def test_sandbox_allows_analysis_import():
+    df = _load()
+    out, made_chart = run_code(
+        "import numpy as np\nprint(int(np.array([1, 2, 3]).sum()))", df
+    )
+    assert out.strip() == "6"
+    print("sandbox OK -> analysis imports allowed")
+
+
 if __name__ == "__main__":
     test_profile_mentions_columns()
     test_sandbox_runs_and_prints()
@@ -63,4 +79,6 @@ if __name__ == "__main__":
 
     test_sandbox_makes_chart(Path(tempfile.mkdtemp()))
     test_sandbox_blocks_file_access()
+    test_sandbox_blocks_unsafe_import()
+    test_sandbox_allows_analysis_import()
     print("\nAll offline checks passed.")

@@ -47,14 +47,28 @@ TOOLS = [
 ]
 
 
-def analyze(df, question, chart_path, max_steps=5):
+def analyze(df, question, chart_path, max_steps=8):
     """Answer a question about df. Returns (answer_text, made_chart_bool)."""
     system = (
         "You are a careful data analyst. You have a pandas dataframe called "
-        "`df`. Investigate by calling run_analysis with small snippets. "
-        "Base every claim on real output — never guess numbers. When you have "
-        "enough, give a short, plain-English answer a business owner would "
-        "understand, ending with one concrete recommendation.\n\n"
+        "`df`. Investigate by calling run_analysis with small snippets — the "
+        "value of the last line in each snippet is shown to you, so you don't "
+        "need print(). Base every claim on real output; never guess numbers.\n\n"
+        "Method for trend / 'which is going up or down' questions:\n"
+        "1. Pivot the metric by the time column and the category (e.g. "
+        "df.pivot_table(index=<time>, columns=<category>, values=<metric>, "
+        "aggfunc='sum')).\n"
+        "2. For each category, measure the trend properly — compare the first "
+        "period to the last, or fit a slope with np.polyfit — do NOT eyeball a "
+        "single month. The category with the most negative change is the "
+        "answer.\n"
+        "3. Draw a line chart of the metric over time per category so the "
+        "trend is visible (use plt; do not call plt.show).\n\n"
+        "You MUST draw the chart with a run_analysis call before writing your "
+        "final answer — the answer is not complete without it.\n\n"
+        "Then give a short, plain-English answer a business owner would "
+        "understand — name the specific category, quantify the change, and end "
+        "with one concrete recommendation.\n\n"
         f"Dataframe overview:\n{profile_df(df)}"
     )
 
