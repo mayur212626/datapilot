@@ -20,11 +20,12 @@ the model guessing.
 Ask *"Which region is losing revenue over the year?"* against the included
 sample data and the agent surfaces the West region's steady decline:
 
-![Revenue by region](docs/demo_chart.png)
+![DataPilot app](docs/screenshot.png)
 
-> Chart above is real output from the sample dataset. To capture a screenshot
-> of the full app, run it with your API key and save the view to
-> `docs/screenshot.png` — the README will pick it up.
+The chart below is real output the agent produced from the sample dataset —
+the West region's revenue clearly declining over the year:
+
+![Revenue by region](docs/demo_chart.png)
 
 ## Stack
 
